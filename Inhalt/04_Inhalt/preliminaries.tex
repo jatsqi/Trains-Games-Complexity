@@ -1,14 +1,90 @@
 \chapter{Preliminaries}
 
+	In order get a better intuition about the relevant complexity landscape, PSPACE-Completeness and the gadget construction in particular, which will become very important in section \ref{chap:gadgets}, a few selected topics are briefly presented on the following pages.
+	Readers which already have a background in theoretical computer science or related fields may skip these sections, as they only contain well known results.
+
 	\section{Complexity landscape}
 	
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}[myellipse/.style 2 args={ellipse, fill=black!#1, label={[anchor=north, below=2.5mm]#2}}, font=\sffamily]
+				\node[myellipse={10}{EXPSPACE}, minimum width=12cm, minimum height=5cm, draw] (e1) {};
+				\node[myellipse={20}{EXPTIME}, minimum width=10cm, minimum height=4cm, above=2mm of e1.south] (e2) {};
+				%\node[myellipse={30}{PSPACE = NPSPACE}, minimum width=8cm, minimum height=4cm, above=2mm of e2.south] (e3) {};
+				\node[myellipse={30}{PSPACE = NPSPACE}, minimum width=8cm, minimum height=3cm, above=2mm of e2.south] (e3) {};
+				\node[myellipse={40}{NP}, minimum width=6cm, minimum height=2cm, above=2mm of e3.south] (e4) {};
+				\node[myellipse={50}{P}, minimum width=4cm, minimum height=1cm, above=2mm of e4.south] (e5) {};
+				%\node[myellipse={40}{}, minimum width=2cm, minimum height=1cm, above=2mm of e5.south] (e6) {NL};
+			\end{tikzpicture}
+			\caption{An overview about the complexity landscape relevant for this report. The class $\PSP$ is a superset of the known classes like $\PO$ and $\NP$. Just like the famous $\PO \stackrel{?}{=} \NP$ problem, it is still unknown whether $\PO \stackrel{?}{=} \PSP$. One interesting aspect, which is already indicated in the figure, is the fact that $\PSP=\NPSP$, which follows as a corollary from \textit{Savitch's theorem} \cite{Savitch.1970, Arora.2010}.}
+			\label{fig:prelims:landscape}
+		\end{figure}
+		
+		In the following sections the most important complexity classes relevant for this report are characterized \todo{Klingt scheiße} and described in a intuitive way.
+		As shown in the well known complexity class hierarchy in figure \ref{fig:prelims:landscape}, classes like $\PO$ and $\NP$ are contained in $\PSP$. 
+	
 		\subsection{P, NP, PSPACE}
+		
+			\edef\sizetape{0.7cm}
+			\tikzstyle{tmtape}=[draw,minimum size=\sizetape]
+			\tikzstyle{tmhead}=[arrow box,draw,minimum size=.5cm,arrow box
+			arrows={east:.25cm, west:0.25cm}]
+		
+			\begin{figure}[ht!]
+				\centering
+				\begin{tikzpicture}
+					\tikzstyle{every path}=[very thick]
+					
+					\edef\sizetape{0.7cm}
+					\tikzstyle{tmtape}=[draw,minimum size=\sizetape]
+					\tikzstyle{tmhead}=[arrow box,draw,minimum size=.5cm,arrow box
+					arrows={north:.25cm}]
+					
+					%% Draw TM tape
+					\begin{scope}[start chain=1 going right,node distance=-0.15mm]
+						\node [on chain=1,tmtape,draw=none] {$\ldots$};
+						\node [on chain=1,tmtape] {\textvisiblespace};
+						\node [on chain=1,tmtape] (input) {1};
+						\node [on chain=1,tmtape] {0};
+						\node [on chain=1,tmtape] {0};
+						\node [on chain=1,tmtape] {0};
+						\node [on chain=1,tmtape] {0};
+						\node [on chain=1,tmtape] {0};
+						\node [on chain=1,tmtape] {\textvisiblespace};
+						\node [on chain=1,tmtape,draw=none] {$\ldots$};
+						\node [on chain=1] {\textbf{Input/Output Tape}};
+					\end{scope}
+					
+					%% Draw TM head below (input) tape cell
+					\node [tmhead,yshift=-.60cm,label=0:\textbf{Current head position and state}] at (input.south) (head) {$q_1$};
+				\end{tikzpicture}
+				\caption{An arbitrary \textit{Turing Machine} in state $q_1$ with a single tape in order to keep the drawings simple. Turing machines are often depicted with multiple tapes \cite{Arora.2010}, but these TMs can be simulated by a TM with just one tape using only quadratically more computation time.}
+				\label{fig:prelims:tm}
+			\end{figure}
+			
+			\begin{defStrich}[PTIME]
+				PTIME, often abbreviated with just \textit{P}, is a complexity class which contains all \textit{decision problems} that can be solved by a deterministic turing machine in polynomial time.
+			\end{defStrich}
+			
+			With respect to figure \ref{fig:prelims:landscape}, this means that for any decision problem in \textbf{PTIME} there exists a turing machine with can be solved after polynomial many steps.
+			
+			\begin{defStrich}[NPTIME]
+				NPTIME, often abbreviated with just \textit{NP}, is a complexity class which contains all \textit{decision problems} that can be solved by a \textbf{non}-deterministic turing machine in polynomial time.
+			\end{defStrich}
+			
+			Another definition which is quite common is the notion of a deterministic turing machine called a \textit{verifier} which can verify a given \textit{certificate} of polynomial length in polynomial time.
 		
 		\subsection{The dynamics of PSPACE and NPSPACE}
 		
 		\subsection{The essence of PSPACE}
 	
 	\section{\ac{QBF}}
+	
+		\todo{QBF definieren}
+	
+		QBF can also be used as a framework to encode and solve a variety of seemingly unrelated problems, e.g. Model Checking \cite{Baier.2008?}, Games \cite{Ani.2022} and many more applications that are beyond the scope of this report.
+		For a more sophisticated overview about possible applications, the reader is referred to \cite{Shukla.2019}.
+		In fact, even with very strong restrictions on the amount and type of quantifiers, these special variants of \ac{QBF} can still be used to encode many problems \cite{Balabanov.2016}.
 	
 	\section{Gadget Constructions}
 	
